@@ -1,0 +1,38 @@
+import numpy as np
+
+
+x = [6, 8, 12]
+y = [20, 22, 32]
+
+c
+A = [
+    [x[0]**2, x[0], 1],
+    [x[1]**2, x[1], 1],
+    [x[2]**2, x[2], 1]
+]
+a, b, c = np.linalg.solve(A, y)
+
+
+def temperature_at(hour):
+    return a * hour**2 + b * hour + c
+
+
+try:
+    with open("times.txt", "r") as file:
+        lines = file.readlines()
+        print("Predicted Temperatures:\n")
+        for line in lines:
+            line = line.strip()
+            if line == "":
+                continue
+            try:
+                hour = float(line)
+                if 0 <= hour <= 24:
+                    temp = temperature_at(hour)
+                    print(f"{hour:02.1f}:00 → {temp:.2f}°C")
+                else:
+                    print(f"{line}: Invalid time (must be 0–24)")
+            except ValueError:
+                print(f"{line}: Not a valid number")
+except FileNotFoundError:
+    print(" File 'times.txt' not found. Please create it with one time per line.")
